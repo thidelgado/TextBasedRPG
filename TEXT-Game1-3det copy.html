@@ -6,6 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    /* Create two equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      height: 300px; /* Should be removed. Only for demonstration */
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
     body {
       background-color: black;
       color: white;
@@ -19,12 +37,28 @@
     #cyt {
       flex: 2;
     }
+    #d1 {
+      float: left;
+    }
+    
+    #charpic {
+      float: right;
+    }
+    #cim { 
+      height: 400px;
+    }
   </style>
   <script>
-    var character = 0
+    
     var charpt = 13
     //var player = savePlayer()
     let player = {};
+
+    var pst = 0
+    var pdx = 0
+    var pre = 0
+    var pam = 0
+    var pfp = 0
 /*
     document.getElementById("st").addEventListener("input", updateCharpt);
     document.getElementById("dx").addEventListener("input", updateCharpt);
@@ -47,7 +81,7 @@
       document.getElementById("d0").style.display = "none";
       document.getElementById("charpth2").innerHTML = `You have ${charpt} points to distribute to your character attributes`
     }
-
+//HERO SAVE INFORMATION  ==============================================================
     function savePlayer() {
       player = {
         name: document.getElementById("nm").value,
@@ -57,9 +91,16 @@
         AM: document.getElementById("am").value,
         FP: document.getElementById("fp").value,
         HP: (document.getElementById("re").value)*5,   
-      }
-      var chpt = (Number(player.ST)) + (Number(player.DX)) + (Number(player.RE)) + (Number(player.AM)) + (Number(player.fp))
-//,PT: player.ST + player.DX + player.RE + player.AM + player.fp
+      } 
+      pst = parseInt(player.ST)
+      pdx = parseInt(player.DX)
+      pre = parseInt(player.RE)
+      pam = parseInt(player.AM)
+      pfp = parseInt(player.FP)
+      console.log("PST" , pst)
+
+      var chpt = pst + pdx + pre + pam + pfp
+      //,PT: player.ST + player.DX + player.RE + player.AM + player.fp
 
       console.log(player);
       document.getElementById("player-info").style.display = "block";
@@ -68,16 +109,45 @@
     }
     //+ "PT: " + player.PT
 
-    //HERO SELECTION
-    
+//HERO SELECTION PICTURE ==============================================================
+    var character = 0
+    //var w1 = 0
+    //var w2 = 0
+    function changeCharacter(value) {
+      if(value == 'w1'){
+        character = "warrior1";
+      } else if(value == 'w2') {
+        character = "warrior2";
+      } else {
+        character = "unknown";
+      }
+      console.log(`Character selected: ${character}`)
+                // CHARPIC Display
+    charpic.innerHTML = `${character}`
+    if (character == 'warrior1') {
+      //charpic.innerHTML = `${character}`
+      charpic.innerHTML = `<img src="Images/Warrior1.jpg">`
+    }
+    else if (character == 'warrior2') {
+      //charpic.innerHTML = `${character}`
+      charpic.innerHTML = `<img src="Images/Warrior2.jpg">`
+    }
+    else {
+      console.log(character)
+      console.log("CHOSEN CHAR: ",character)
+      
+    }
+    var t1 = document.getElementById('t1')
+    //t1.innerHTML = 'T1 DIV MOSTRE ALGO'
 
-    function changeCharacter(newCharacter) {
-      var character = 1;
+    }
+    /*function changeCharacter(newCharacter) {
+      character = newCharacter;
       //alert("Character set to: " + character);
       console.log(`Character selected: ${character}`)
       var charpic = window.document.querySelector('div#charpic')
       return character
-    }
+    }*/
 
     function d2() {
       document.getElementById("d1").style.display = "none";
@@ -93,10 +163,15 @@
 
     function at3b() {
       var diceAt = randomValue = Math.floor(Math.random() * 6) + 1;
+      var diceASum = pst + pdx +diceAt
       var bres1 = window.document.querySelector('div#bres1')
-      bres1.innerHTML = ` Attack dice roll is ${diceAt}`
+      if (diceAt == 6) {
+        diceASum = (pst*2) + pdx +diceAt
+      }
+      bres1.innerHTML = ` Attack dice roll is ${diceAt} <br>`
       var diceDe = randomValue = Math.floor(Math.random() * 6) + 1;
       var bdef1 = window.document.querySelector('div#bdef1')
+      var diceDSum 
       bdef1.innerHTML = ` Defense dice roll is ${diceDe}`
       //pst = Number(player.ST)
       //var at = player.ST + player.DX + diceAt
@@ -115,59 +190,67 @@
     <h1> The Warrior's Dark Fantasy Game</h1>
     <h2> The world of the story is a dark fantasy universe where light and order have been overrun by darkness and chaos. The realm is ruled by a powerful sorcerer king and his army of twisted creatures and powerful sorcerers who have enslaved the people and terrorize the land with their dark magic. The land is filled with ancient ruins, treacherous forests, and dangerous creatures. The people live in fear and hopelessness, desperately seeking a savior who can defeat the darkness and restore light and order to the land. The air is thick with the stench of decay and the land is barren and desolate, the sky is often covered by dark clouds and the only source of light is coming from the magic crystals that are scattered throughout the realm. These crystals are the only thing that keeps the balance and prevents the darkness from consuming everything. The warrior wakes up in a dark and mysterious forest, which is one of the many such places in the realm where the darkness is strongest.</h2>
     <br><br>
-    <h1> Chose your Hero</h1>
-    <img src="Images/Warrior1.jpg" onclick="changeCharacter(1)">
-    <img src="Images/Warrior2.jpg" onclick="changeCharacter(2)">
     <input id="startbt" type="button" value="Start Game" onclick="startGame()">
+    <h1> Chose your Hero</h1>
+
+    <img src="Images/Warrior1.jpg" onclick="changeCharacter('w1')" id="cim">
+    <img src="Images/Warrior2.jpg" onclick="changeCharacter('w2')" id="cim">
   </div>
   <div id="cont1">
-    <div id="d1" style="display:none;">
-      <h1>Enter the character information</h1>
-      <label for="nm">Name:</label>
-      <input type="text" id="nm" name="nam"><br>
-      <h2 id="charpth2"></h2>
-      <h3> ST represents the strenght of your character</h3>
-      <label for="ST">ST:</label>
-      <input type="number" id="st" name="str"><br>
-      <h3> DX represents the dextery of your character</h3>
-      <label for="DX">DX:</label>
-      <input type="number" id="dx" name="dex"><br>
-      <h3> RE represents the resistance of your character</h3>
-      <label for="RE">RE:</label>
-      <input type="number" id="re" name="res"><br>
-      <h3> AM represents the armor of your character</h3>
-      <label for="AC">AM:</label>
-      <input type="number" id="am" name="arm"><br>
-      <h3> FP represents the fire power of your character</h3>
-      <label for="FP">FP:</label>
-      <input type="number" id="fp" name="frp"><br>
-      <input type="button" value="Save" onclick="savePlayer()">
-      <input id="bd2" type="button" value="Continue" onclick="d2()" style="display:none;">
-      <!-- PLAYER-INFO-------------------------------------------->
-      <div id="player-info"></div>
+    <div id="d1" class="row1" style="display:none;">
+
+
+<!--<h2>Character Creation</h2>-->
+
+    <div class="row">
+      <div class="column">
+        <h1>Enter the character information</h1>
+        <p>Some text..</p>
+        <div id="pinf">
+          
+          <label for="nm">Name:</label>
+          <input type="text" id="nm" name="nam"><br>
+          <h2 id="charpth2"></h2>
+          <h4> ST represents the strenght of your character</h4>
+          <h4> DX represents the dextery of your character</h4>
+          <h4> RE represents the resistance of your character</h4>
+          <h4> AM represents the armor of your character</h4>
+          <h4> FP represents the fire power of your character</h4>
+          <label for="ST">ST:</label>
+          <input type="number" id="st" name="str"><br>
+          
+          <label for="DX">DX:</label>
+          <input type="number" id="dx" name="dex"><br>
+          
+          <label for="RE">RE:</label>
+          <input type="number" id="re" name="res"><br>
+          
+          <label for="AC">AM:</label>
+          <input type="number" id="am" name="arm"><br>
+          
+          <label for="FP">FP:</label>
+          <input type="number" id="fp" name="frp"><br>
+          <input type="button" value="Save" onclick="savePlayer()">
+          <input id="bd2" type="button" value="Continue" onclick="d2()" style="display:none;">
+<!-- PLAYER-INFO-------------------------------------------->
+          <div id="player-info"></div>
+        </div>
+      </div>
+      <div class="column" >
+        <h2>Picture</h2>
+        <p>The badass</p>
+              
+      
       <!--<div id="cyt">
         <img src="Images/cit.jpg">
       </div>--> 
-    <!-- DIV0--------------------------------------------------->
+<!-- DIV0--------------------------------------------------->
     <div id="charpic">ADICIONAL</div>
-    <div id="t1">INITIAL CONTENT</div>
-  </div>
-  
-    <script>
-          // CHARPIC Display
-    charpic.innerHTML = `${character}`
-    if (character == 1) {
-      charpic.innerHTML = `${character}`
-      charpic.innerHTML = `<img src="Images/Warrior1.jpg" onclick="changeCharacter(i1)">`
-    }
-    else {
-      charpic.innerHTML = `${character}`
-      charpic.innerHTML = `<img src="Images/Warrior2.jpg" onclick="changeCharacter(i2)">`
-    }
-    var t1 = document.getElementById('t1')
-    t1.innerHTML = 'T1 DIV MOSTRE ALGO'
-    </script>
+    <!--<div id="t1">INITIAL CONTENT</div>-->
+      </div>
+    </div>
 
+  </div>
   </div>
 
   <div id="d2" style="display:none;">
@@ -184,7 +267,10 @@
     <h1>Path3a</h1>
     <img src="Images/zombie1-swamp.jpg">
     <h2> You found a zombie on your way</h2>
-    <input id="atk1-3b" type="button" value="Attack the Zombie" onclick="at3b()" style="display:block;">
+    <div id="player-info" display="block"></div>
+    <input id="atk1-3b" type="button" value="Attack" onclick="at3b()" style="display:block;">
+    <input id="atk1-3b" type="button" value="Attack2" onclick="at3b()" style="display:block;">
+    <input id="atk1-3b" type="button" value="Run" onclick="at3b()" style="display:block;">
     <div id="bres1"></div>
     <div id="bdef1"></div>
     <div id="turnres">HERE</div>
