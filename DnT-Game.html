@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      h1 {
+        text-align: center;
+      }
+
+      /* Create two equal columns that floats next to each other */
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+      }
+
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      h1 {
+        color: yellow;
+        background-color: darkgrey;
+        border-radius: 20px;
+        text-shadow: 2px 2px 5px black;
+      }
+      .intro1 {
+        outline-color: darkgrey;
+        outline-style: double;
+        text-align: center;
+      }
+      body {
+        background-color: black;
+        color: white;
+      }
+      #container {
+        display: flex;
+      }
+      #d1 {
+        flex: 1;
+        float: left;
+      }
+      #cyt {
+        flex: 2;
+      }
+      #d1 {
+      }
+
+      #charpic {
+        float: right;
+        border-style: double;
+        border-color: yellow;
+        border-width: 6px;
+      }
+      #pch {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #cim {
+        /*  display: block; /* add this to make sure the image takes up the full width of its parent */
+        /*  margin-left: auto;
+        margin-right: auto; */
+        height: 400px;
+        float: left; /* or right */
+        margin: 0 auto;
+        border-style: double;
+        border-color: yellow;
+        border-width: 6px;
+      }
+      #cim2 {
+        height: 500px;
+      }
+      div#con0 {
+        float: left;
+        width: 50%;
+      }
+      div#con1 {
+        float: left;
+        width: 50%;
+        padding-left: 50px;
+      }
+      #sw0 {
+        float: left;
+        width: 50%;
+      }
+      #sw1 {
+        float: left;
+        width: 50%;
+      }
+      .scene {
+        height: 500px;
+      }
+    </style>
+    <script>
+      var charpt = 10;
+      //var player = savePlayer()
+      let player = {};
+
+      var pst = 0;
+      var pdx = 0;
+      var pre = 0;
+      var pam = 0;
+      var pfp = 0;
+      /*
+    document.getElementById("st").addEventListener("input", updateCharpt);
+    document.getElementById("dx").addEventListener("input", updateCharpt);
+    document.getElementById("re").addEventListener("input", updateCharpt);
+    document.getElementById("am").addEventListener("input", updateCharpt);
+    document.getElementById("fp").addEventListener("input", updateCharpt);
+*/
+      function updateCharpt() {
+        charpt -= Number(event.target.value);
+        document.getElementById("charpth2").innerHTML = "charpt: " + charpt;
+      }
+      //ON GAME START
+      function load() {
+        document.getElementById("d0").style.display = "block";
+        document.getElementById("d1").style.display = "none";
+      }
+
+      function startGame() {
+        document.getElementById("d1").style.display = "block";
+        document.getElementById("d0").style.display = "none";
+        document.getElementById(
+          "charpth2"
+        ).innerHTML = `You have ${charpt} points to distribute to your character attributes`;
+      }
+      //HERO SAVE INFORMATION  ==============================================================
+      function savePlayer() {
+        player = {
+          name: document.getElementById("nm").value,
+          ST: document.getElementById("st").value,
+          DX: document.getElementById("dx").value,
+          RE: document.getElementById("re").value,
+          AM: document.getElementById("am").value,
+          FP: document.getElementById("fp").value,
+          HP: document.getElementById("re").value * 5,
+        };
+        pst = parseInt(player.ST);
+        pdx = parseInt(player.DX);
+        pre = parseInt(player.RE);
+        pam = parseInt(player.AM);
+        pfp = parseInt(player.FP);
+        console.log("PST", pst);
+
+        var chpt = pst + pdx + pre + pam + pfp;
+        //,PT: player.ST + player.DX + player.RE + player.AM + player.fp
+
+        console.log(player);
+        document.getElementById("player-info").style.display = "block";
+        document.getElementById("bd2").style.display = "block";
+        document.getElementById("player-info").innerHTML =
+          "Name: " +
+          player.name +
+          "<br>" +
+          "ST: " +
+          player.ST +
+          "<br>" +
+          "DX: " +
+          player.DX +
+          "<br>" +
+          "RE: " +
+          player.RE +
+          "<br>" +
+          "AM: " +
+          player.AM +
+          "<br>" +
+          "FP: " +
+          player.FP +
+          "<br>" +
+          "HP: " +
+          player.HP +
+          "<br>" +
+          "Spent Points: " +
+          chpt;
+      }
+      //+ "PT: " + player.PT
+
+      //HERO SELECTION PICTURE ==============================================================
+      var character = 0;
+      //var w1 = 0
+      //var w2 = 0
+      function changeCharacter(value) {
+        if (value == "w1") {
+          character = "warrior1";
+        } else if (value == "w2") {
+          character = "warrior2";
+        } else {
+          character = "unknown";
+        }
+        console.log(`Character selected: ${character}`);
+        // CHARPIC Display
+        charpic.innerHTML = `${character}`;
+        if (character == "warrior1") {
+          //charpic.innerHTML = `${character}`
+          charpic.innerHTML = `<img src="Images/Warrior1.jpg" id="cim2">`;
+        } else if (character == "warrior2") {
+          //charpic.innerHTML = `${character}`
+          charpic.innerHTML = `<img src="Images/Warrior2.jpg" id="cim2">`;
+        } else {
+          console.log(character);
+          console.log("CHOSEN CHAR: ", character);
+        }
+        var t1 = document.getElementById("t1");
+        //t1.innerHTML = 'T1 DIV MOSTRE ALGO'
+      }
+      /*function changeCharacter(newCharacter) {
+      character = newCharacter;
+      //alert("Character set to: " + character);
+      console.log(`Character selected: ${character}`)
+      var charpic = window.document.querySelector('div#charpic')
+      return character
+    }*/
+
+      function d2() {
+        document.getElementById("d1").style.display = "none";
+        document.getElementById("d0").style.display = "none";
+        document.getElementById("d2").style.display = "block";
+      }
+
+      function d3a() {
+        document.getElementById("d2").style.display = "none";
+        document.getElementById("d3a").style.display = "block";
+        let zombie = { name: "Zomb", st: 1, dx: 2, re: 2, am: 1, fp: 0 };
+
+        var est1 = (randomValue = Math.floor(Math.random() * 3) + 1);
+        var edx1 =(randomValue = Math.floor(Math.random() * 3) + 1);
+        var ere1 = (randomValue = Math.floor(Math.random() * 3) + 1);
+        var eam1 = (randomValue = Math.floor(Math.random() * 2) + 1);
+        var efp1 = (randomValue = Math.floor(Math.random() * 2) + 1);
+        var ehp1 = (randomValue = Math.floor(Math.random() * 5) + 1);
+      }
+
+      function at3b() {
+        var diceAt = (randomValue = Math.floor(Math.random() * 6) + 1);
+        var diceASum = pst + pdx + diceAt;
+        var bres1 = window.document.querySelector("div#bres1");
+        if (diceAt == 6) {
+          diceASum = pst * 2 + pdx + diceAt;
+        }
+        bres1.innerHTML = ` Attack dice roll is ${diceAt} <br> Strenght is ${pst} + Dextery is ${pdx} <br> Total attack value is ${diceASum}`;
+        var diceDe = (randomValue = Math.floor(Math.random() * 6) + 1);
+        var bdef1 = window.document.querySelector("div#bdef1");
+        var diceDSum;
+        if (diceDe == 6) {
+          diceDSum = ps * 2 + pdx + diceAt;
+        }
+        bdef1.innerHTML = ` Defense dice roll is ${diceDe}`;
+        //pst = Number(player.ST)
+        //var at = player.ST + player.DX + diceAt
+        console.log(player.ST);
+        var turnres = window.document.querySelector("div#turnres");
+        turnres.innerHTML = `TEST ${player}`;
+      }
+    </script>
+  </head>
+
+  <body onload="load()">
+    <div id="d0">
+      <div id="con0">
+        <h1>The Warrior's Dark Fantasy Game</h1>
+        <h3 class="intro1">
+          <p>
+            The warrior groaned as he slowly sat up, rubbing his head. He
+            couldn't remember how he had gotten here, in this dark and misty
+            swamp. The last thing he remembered was sitting at a dinner table
+            with his wife and children, laughing and joking. He had no idea how
+            he had ended up in this strange place.
+          </p>
+          <p>
+            As he looked around, he noticed that he doesn't have any weapons or
+            armor. He had no idea where he was or what was happening, but he
+            knew that he was a warrior, and he would fight to survive.
+          </p>
+          <p>
+            He stood up, his legs unsteady beneath him. He looked around, trying
+            to get his bearings. The mist was thick, making it difficult to see
+            more than a few feet in front of him. He could hear the sounds of
+            animals in the distance, but nothing that he recognized.
+          </p>
+          <p>
+            He took a deep breath and set off into the unknown. He knew that he
+            had to find a way out of this swamp and back to his family. He had
+            no idea what was waiting for him, but he was ready for whatever lay
+            ahead.
+          </p>
+          <p>
+            As he walked, he felt a sense of determination growing within him.
+            He would not be defeated by this place, this misty swamp. He was a
+            warrior, and he would fight to survive and return to his family. The
+            journey ahead would be long and difficult, but he was ready for it,
+            even without weapons and armor. He would have to be resourceful and
+            smart.
+          </p>
+        </h3>
+      </div>
+      <br /><br />
+      <div id="con1">
+        <input
+          id="startbt"
+          type="button"
+          value="Start Game"
+          onclick="startGame()"
+          style="text-align: center"
+        />
+        <h2 style="text-align: center">Chose your Hero</h2>
+        <div id="pch">
+          <img
+            src="Images/Warrior1.jpg"
+            onclick="changeCharacter('w1')"
+            id="cim"
+          />
+          <img
+            src="Images/Warrior2.jpg"
+            onclick="changeCharacter('w2')"
+            id="cim"
+          />
+        </div>
+      </div>
+    </div>
+    <div id="cont1">
+      <div id="d1" class="row1" style="display: none">
+        <!--<h2>Character Creation</h2>-->
+
+        <div class="row">
+          <div class="column">
+            <h1>Enter the character information</h1>
+            <p>Some text..</p>
+            <div id="pinf">
+              <label for="nm">Name:</label>
+              <input type="text" id="nm" name="nam" /><br />
+              <h2 id="charpth2"></h2>
+              <!--<h4> ST represents the strenght of your character</h4>
+          <h4> DX represents the dextery of your character</h4>
+          <h4> RE represents the resistance of your character</h4>
+          <h4> AM represents the armor of your character</h4>
+          <h4> FP represents the fire power of your character</h4>-->
+              <table>
+                <tr>
+                  <th></th>
+                  <th>Attribute</th>
+                </tr>
+                <tr>
+                  <td>ST</td>
+                  <td><input type="number" id="st" name="str" /><br /></td>
+                </tr>
+                <tr>
+                  <td>DX</td>
+                  <td><input type="number" id="dx" name="dex" /><br /></td>
+                </tr>
+                <tr>
+                  <td>RE</td>
+                  <td><input type="number" id="re" name="res" /><br /></td>
+                </tr>
+                <tr>
+                  <td>AM</td>
+                  <td><input type="number" id="am" name="arm" /><br /></td>
+                </tr>
+                <tr>
+                  <td>FP</td>
+                  <td><input type="number" id="fp" name="frp" /><br /></td>
+                </tr>
+              </table>
+              <!-- <label for="ST">ST:</label>
+          <input type="number" id="st" name="str"><br>
+          
+          <label for="DX">DX:</label>
+          <input type="number" id="dx" name="dex"><br>
+          
+          <label for="RE">RE:</label>
+          <input type="number" id="re" name="res"><br>
+          
+          <label for="AC">AM:</label>
+          <input type="number" id="am" name="arm"><br>
+          
+          <label for="FP">FP:</label>
+          <input type="number" id="fp" name="frp"><br>
+          -->
+              <input type="button" value="Save" onclick="savePlayer()" />
+              <input
+                id="bd2"
+                type="button"
+                value="Continue"
+                onclick="d2()"
+                style="display: none"
+              />
+              <!-- PLAYER-INFO-------------------------------------------->
+              <div id="player-info"></div>
+            </div>
+          </div>
+          <div class="column">
+            <h2>Picture</h2>
+            <p>The badass</p>
+
+            <!--<div id="cyt">
+        <img src="Images/cit.jpg">
+      </div>-->
+            <!-- DIV0--------------------------------------------------->
+            <div id="charpic">ADICIONAL</div>
+            <!--<div id="t1">INITIAL CONTENT</div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="d2" style="display: none">
+      <h1>Path1</h1>
+      <div id="cyt">
+        <div id="sw0">
+          <img src ="Images/swamp1.jpg" class="scene" />
+        </div>
+        <div id="sw1">
+          <h2>Text about what happened</h2>
+          <p>
+            The warrior stood in the middle of a dark and misty swamp. The
+            ground beneath his feet was soft and spongy, covered in a thick
+            layer of moss. The mist was so thick that he could barely see more
+            than a few feet in front of him. The air was damp and musty, and the
+            only sound was the distant croaking of frogs.
+          </p>
+          <p>
+            The trees surrounding him were twisted and gnarled, their branches
+            reaching out like gnarled fingers. The leaves were a sickly green,
+            and the bark was black and rotting. The water in the swamp was dark
+            and still, with a thick layer of algae on top.
+          </p>
+          <p>
+            The warrior knew that he had to find a way out of this place, but he
+            had no idea which direction to go. He could either forge ahead,
+            blindly making his way through the swamp, or he could try to climb a
+            nearby tree to see if he could get a better view of his
+            surroundings.
+          </p>
+          <p>
+            The warrior weighed his options, his hand on his chin. He knew that
+            going forward blindly could be dangerous and time-consuming. On the
+            other hand, climbing a tree could give him a better idea of where he
+            was and where he needed to go. He took a deep breath and decided
+            that it was worth a try. He approached the tree, looking for a good
+            spot to begin his climb.
+          </p>
+        </div>
+        <input
+          id="bd3a"
+          type="button"
+          value="Continue to walk forward"
+          onclick="d3a()"
+          style="display: block"
+        />
+        <input
+          id="bd3b"
+          type="button"
+          value="Climb the tree"
+          onclick="d3b()"
+          style="display: block"
+        />
+      </div>
+      -->
+    </div>
+    <!-- PATH 3-->
+    <div id="d3a" style="display: none">
+      <h1>Path3a</h1>
+      <img class="scene" src="Images/zombie1-swamp.jpg" />
+      <h2>You found a zombie on your way</h2>
+      <div id="player-info" display="block"></div>
+      <input
+        id="atk1-3b"
+        type="button"
+        value="Attack"
+        onclick="at3b()"
+        style="display: block"
+      />
+      <input
+        id="atk1-3b"
+        type="button"
+        value="Attack2"
+        onclick="at3b()"
+        style="display: block"
+      />
+      <input
+        id="atk1-3b"
+        type="button"
+        value="Run"
+        onclick="at3b()"
+        style="display: block"
+      />
+      <div id="bres1"></div>
+      <div id="bdef1"></div>
+      <div id="turnres">HERE</div>
+    </div>
+
+    <div id="d3b" style="display: none">
+      <h1>Path3b</h1>
+    </div>
+    <!-- PATH 4-->
+  </body>
+</html>
